@@ -104,15 +104,20 @@ void ProxyServer::handleRequest(int sockfd) {
         // 返回错误请求
         SOCK4_REPLY[1] = 91;
         write(sockfd, SOCK4_REPLY, 8);
+        cout << "<S_IP>:   " << srcIP << endl;
+        cout << "<S_Port>: " << srcPort << endl;
+        cout << "<D_IP>;   " << dstIP << endl;
+        cout << "<D_Port>: " << dstPort << endl;
+        cout << "<Reply>:  " << "Denied" << endl;
         return;
     }
     else {
-        cout << "rult pass: " << srcIP << endl;
+        cout << "<S_IP>:   " << srcIP << endl;
+        cout << "<S_Port>: " << srcPort << endl;
+        cout << "<D_IP>;   " << dstIP << endl;
+        cout << "<D_Port>: " << dstPort << endl;
+        cout << "<Reply>:  " << "Granted" << endl;
     }
-    cout << "Src_IP: " << srcIP << endl;
-    cout << "Src_Port: " << srcPort << endl;
-    cout << "Dst_IP; " << dstIP << endl;
-    cout << "Dst_Port: " << dstPort << endl;
 
     // 检查连接模式 connect or bing
     if ((int)SOCK4_REQUEST[1] == 1) 
@@ -235,7 +240,7 @@ void ProxyServer::bindMode(int sockfd, string ip, string port) {
 
     // 第一次响应
     write(sockfd, SOCK4_REPLY, 8);
-    
+
     struct sockaddr_in client_addr;
     socklen_t alen;
     alen = sizeof(client_addr);
@@ -243,7 +248,7 @@ void ProxyServer::bindMode(int sockfd, string ip, string port) {
     int dstHostfd = accept(msock, (struct sockaddr *) &client_addr, &alen);
     // 第二次响应
     write(sockfd, SOCK4_REPLY, 8);
-    
+
     // 开始传递数据
     fd_set rfds, afds;
     FD_ZERO(&rfds);
