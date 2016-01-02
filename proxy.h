@@ -9,6 +9,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string>
+#include <fcntl.h>
+#include <sys/select.h>
+
+
 
 using namespace std;
 
@@ -18,10 +22,14 @@ class ProxyServer {
         int passivesock(int port);
         void error(const char *eroMsg);
         void handleRequest(int);
+        void connectMode(int sockfd, string ip, string port, unsigned char *SOCK4_REPLY);
+        void bindMode(int sockfd, string ip, string port);
+
 
     public:
-        int srcIP;
-        int srcPort;
+        int modeRule;
+        string srcIP;
+        string srcPort;
 
 };
 
